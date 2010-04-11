@@ -1,6 +1,6 @@
 <?php
-class City extends LoggableAppModel {
-    var $name = 'City';
+class LoggableCity extends LoggableAppModel {
+    var $name = 'LoggableCity';
 
     var $validate = array(
         'city' => array(
@@ -9,8 +9,8 @@ class City extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className' => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className' => 'Loggable.LoggableLog',
             'foreignKey' => 'city_id'
         )
     );

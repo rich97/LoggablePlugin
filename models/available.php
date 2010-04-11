@@ -1,10 +1,9 @@
 <?php
-class Available extends LoggableAppModel {
-    var $name = 'Available';
-
+class LoggableAvailable extends LoggableAppModel {
+    var $name = 'LoggableAvailable';
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'available_id'
         )
     );

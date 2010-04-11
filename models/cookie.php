@@ -1,6 +1,6 @@
 <?php
-class Cookie extends LoggableAppModel {
-    var $name = 'Cookie';
+class LoggableCookie extends LoggableAppModel {
+    var $name = 'LoggableCookie';
 
     var $validate = array(
         'cookie' => array(
@@ -9,8 +9,8 @@ class Cookie extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'cookie_id'
         )
     );

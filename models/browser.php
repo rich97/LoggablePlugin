@@ -1,10 +1,10 @@
 <?php
-class Browser extends LoggableAppModel {
+class LoggableBrowser extends LoggableAppModel {
 
-    var $name = 'Browser';
+    var $name = 'LoggableBrowser';
     var $hasMany = array(
-        'UserAgent' => array(
-            'className'     => 'Loggable.UserAgent',
+        'LoggableUserAgent' => array(
+            'className'     => 'Loggable.LoggableUserAgent',
             'foreignKey'    => 'browser_id'
         )
     );

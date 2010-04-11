@@ -1,7 +1,6 @@
 <?php
 class LoggableAppModel extends AppModel{
 
-    var $useDbConfig = 'log';
     var $actsAs = array('Containable');
 
     function uniqueId($cond = array(), $return = 0) {
