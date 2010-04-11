@@ -1,6 +1,6 @@
 <?php
-class Language extends LoggableAppModel {
-    var $name = 'Language';
+class LoggableLanguage extends LoggableAppModel {
+    var $name = 'LoggableLanguage';
 
     var $validate = array(
         'language' => array(
@@ -9,8 +9,8 @@ class Language extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'language_id'
         )
     );

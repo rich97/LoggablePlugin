@@ -1,7 +1,7 @@
 <?php
-class Url extends LoggableAppModel {
+class LoggableUrl extends LoggableAppModel {
 
-    var $name = 'Url';
+    var $name = 'LoggableUrl';
     var $validate = array(
         'url' => array(
             'rule' => 'isUnique'
@@ -9,8 +9,8 @@ class Url extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'url_id'
         )
     );

@@ -1,7 +1,7 @@
 <?php
-class UserAgent extends LoggableAppModel {
+class LoggableUserAgent extends LoggableAppModel {
 
-    var $name = 'UserAgent';
+    var $name = 'LoggableUserAgent';
     var $validate = array(
         'user_agent' => array(
             'rule' => 'isUnique'
@@ -9,22 +9,22 @@ class UserAgent extends LoggableAppModel {
     );
 
     var $belongsTo = array(
-        'OperatingSystem' => array(
+        'LoggableOperatingSystem' => array(
             'className' => 'Loggable.OperatingSystem',
             'foreignKey' => 'operating_system_id'
         ),
-        'Browser' => array(
+        'LoggableBrowser' => array(
             'className' => 'Loggable.Browser',
             'foreignKey' => 'browser_id'
         ),
-        'Spider' => array(
+        'LoggableSpider' => array(
             'className' => 'Loggable.Spider',
             'foreignKey' => 'spider_id'
         )
     );
 
     var $hasMany = array(
-        'Log' => array(
+        'LoggableLog' => array(
             'className'     => 'Loggable.Log',
             'foreignKey'    => 'user_agent_id'
         )
@@ -34,10 +34,10 @@ class UserAgent extends LoggableAppModel {
         if (!isset($this->OperatingSystem) || !isset($this->Browser) || !isset($this->Spider)) {
             $this->getAssociated();
         }
-        if (isset($this->data['UserAgent']['user_agent'])) {
-            $this->data['UserAgent']['operating_system_id'] = $this->OperatingSystem->uniqueId($this->data['UserAgent']['user_agent']);
-            $this->data['UserAgent']['browser_id'] = $this->Browser->uniqueId($this->data['UserAgent']['user_agent']);
-            $this->data['UserAgent']['spider_id'] = $this->Spider->uniqueId($this->data['UserAgent']['user_agent']);
+        if (isset($this->data['LoggableUserAgent']['user_agent'])) {
+            $this->data['LoggableUserAgent']['operating_system_id'] = $this->OperatingSystem->uniqueId($this->data['LoggableUserAgent']['user_agent']);
+            $this->data['LoggableUserAgent']['browser_id'] = $this->Browser->uniqueId($this->data['LoggableUserAgent']['user_agent']);
+            $this->data['LoggableUserAgent']['spider_id'] = $this->Spider->uniqueId($this->data['LoggableUserAgent']['user_agent']);
         }
         return true;
     }

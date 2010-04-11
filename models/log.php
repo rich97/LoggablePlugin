@@ -1,76 +1,76 @@
 <?php
-class Log extends LoggableAppModel {
+class LoggableLog extends LoggableAppModel {
 
-    var $name = 'Log';
+    var $name = 'LoggableLog';
 
     var $belongsTo = array(
-        'Cookie' => array(
-            'className' => 'Loggable.Cookie',
+        'LoggableCookie' => array(
+            'className' => 'Loggable.LoggableCookie',
             'foreignKey' => 'cookie_id'
         ),
-        'Host' => array(
-            'className' => 'Loggable.Host',
+        'LoggableHost' => array(
+            'className' => 'Loggable.LoggableHost',
             'foreignKey' => 'host_id'
         ),
-        'Referrer' => array(
-            'className' => 'Loggable.Referrer',
+        'LoggableReferrer' => array(
+            'className' => 'Loggable.LoggableReferrer',
             'foreignKey' => 'referrer_id'
         ),
-        'Url' => array(
-            'className' => 'Loggable.Url',
+        'LoggableUrl' => array(
+            'className' => 'Loggable.LoggableUrl',
             'foreignKey' => 'url_id'
         ),
-        'UserAgent' => array(
-            'className' => 'Loggable.UserAgent',
+        'LoggableUserAgent' => array(
+            'className' => 'Loggable.LoggableUserAgent',
             'foreignKey' => 'user_agent_id'
         ),
-        'Continent' => array(
-            'className' => 'Loggable.Continent',
+        'LoggableContinent' => array(
+            'className' => 'Loggable.LoggableContinent',
             'foreignKey' => 'continent_id'
         ),
-        'Country' => array(
-            'className' => 'Loggable.Country',
+        'LoggableCountry' => array(
+            'className' => 'Loggable.LoggableCountry',
             'foreignKey' => 'country_id'
         ),
-        'Region' => array(
-            'className' => 'Loggable.Region',
+        'LoggableRegion' => array(
+            'className' => 'Loggable.LoggableRegion',
             'foreignKey' => 'region_id'
         ),
-        'City' => array(
-            'className' => 'Loggable.city',
+        'LoggableCity' => array(
+            'className' => 'Loggable.Loggablecity',
             'foreignKey' => 'city_id'
         ),
-        'Language' => array(
-            'className' => 'Loggable.Language',
+        'LoggableLanguage' => array(
+            'className' => 'Loggable.LoggableLanguage',
             'foreignKey' => 'language_id'
         ),
-        'Screen' => array(
-            'className' => 'Loggable.Screen',
+        'LoggableScreen' => array(
+            'className' => 'Loggable.LoggableScreen',
             'foreignKey' => 'Screen_id'
         ),
-        'Available' => array(
-            'className' => 'Loggable.Available',
+        'LoggableAvailable' => array(
+            'className' => 'Loggable.LoggableAvailable',
             'foreignKey' => 'available_id'
         )
     );
 
     function beforeSave() {
-        if(isset($this->data['Log']['ip'])) {
+        if(isset($this->data['LoggableLog']['ip'])) {
             $ip = explode('.', $this->data['Log']['ip']);
-            $this->data['Log']['ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
+            $this->data['LoggableLog']['ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
         }
         return true;
     }
 
     function afterFind($results, $primary) {
-        if (isset($results['Log']['ip'])) {
-            $ip = (float)$results['Log']['ip'];
-            $results['Log']['ip'] = floor($ip / 16777216) % 256 . "." . floor($ip / 65536) % 256 . "." . floor($ip / 256) % 256 . "." . floor($ip) % 256;
+        if (isset($results['LoggableLog']['ip'])) {
+            $ip = (float)$results['LoggableLog']['ip'];
+            $results['LoggableLog']['ip'] = floor($ip / 16777216) % 256 . "." . floor($ip / 65536) % 256 . "." . floor($ip / 256) % 256 . "." . floor($ip) % 256;
         } elseif (is_array($results)) {
             foreach ($results as $key => $result) {
-                if (isset($result['Log']['ip'])) {
-                    $ip = (float)$result['Log']['ip'];
-                    $results[$key]['Log']['ip'] = (int)($ip / 16777216) % 256 . "." . (int)($ip / 65536) % 256 . "." . (int)($ip / 256) % 256 . "." . (int)($ip) % 256;
+                if (isset($result['LoggableLog']['ip'])) {
+                    $ip = (float)$result['LoggableLog']['ip'];
+                    $results[$key]['LoggableLog']['ip'] = (int)($ip / 16777216) % 256 . "." . (int)($ip / 65536) % 256 . "." . (int)($ip / 256) % 256 . "." . (int)($ip) % 256;
                 }
             }
         }
@@ -81,9 +81,9 @@ class Log extends LoggableAppModel {
         if (isset($data['conditions']['ip'])) {
             $ip = explode('.', $data['conditions']['ip']);
             $data['conditions']['ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
-        } elseif (isset($data['conditions']['Log.ip'])) {
+        } elseif (isset($data['conditions']['LoggableLog.ip'])) {
             $ip = explode('.', $data['conditions']['Log.ip']);
-            $data['conditions']['Log.ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
+            $data['conditions']['LoggableLog.ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
         }
         return $data;
     }

@@ -1,10 +1,10 @@
 <?php
-class Spider extends LoggableAppModel {
-    var $name = 'Spider';
+class LoggableSpider extends LoggableAppModel {
+    var $name = 'LoggableSpider';
 
     var $hasMany = array(
-        'UserAgent' => array(
-            'className'     => 'Loggable.UserAgent',
+        'LoggableUserAgent' => array(
+            'className'     => 'Loggable.LoggableUserAgent',
             'foreignKey'    => 'spider_id'
         )
     );

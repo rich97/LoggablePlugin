@@ -1,10 +1,10 @@
 <?php
-class OperatingSystem extends LoggableAppModel {
+class LoggableOperatingSystem extends LoggableAppModel {
 
-    var $name = 'OperatingSystem';
+    var $name = 'LoggableOperatingSystem';
     var $hasMany = array(
-        'UserAgent' => array(
-            'className'     => 'Loggable.UserAgent',
+        'LoggableUserAgent' => array(
+            'className'     => 'Loggable.LoggableUserAgent',
             'foreignKey'    => 'operating_system_id'
         )
     );

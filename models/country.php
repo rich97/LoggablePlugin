@@ -1,10 +1,10 @@
 <?php
-class Country extends LoggableAppModel {
-    var $name = 'Country';
+class LoggableCountry extends LoggableAppModel {
+    var $name = 'LoggableCountry';
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'country_id'
         )
     );

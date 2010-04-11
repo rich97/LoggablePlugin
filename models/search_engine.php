@@ -1,10 +1,10 @@
 <?php
-class SearchEngine extends LoggableAppModel {
-    var $name = 'SearchEngine';
+class LoggableSearchEngine extends LoggableAppModel {
+    var $name = 'LoggableSearchEngine';
 
     var $hasMany = array(
-        'Referrer' => array(
-            'className'     => 'Loggable.Referrer',
+        'LoggableReferrer' => array(
+            'className'     => 'Loggable.LoggableReferrer',
             'foreignKey'    => 'search_engine_id'
         )
     );

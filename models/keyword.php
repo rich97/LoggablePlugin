@@ -1,6 +1,6 @@
 <?php
-class Keyword extends LoggableAppModel {
-    var $name = 'Keyword';
+class LoggableKeyword extends LoggableAppModel {
+    var $name = 'LoggableKeyword';
 
     var $validate = array(
         'keyword' => array(
@@ -9,8 +9,8 @@ class Keyword extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'KeywordOrder' => array(
-            'className'     => 'Loggable.KeywordOrder',
+        'LoggableKeywordOrder' => array(
+            'className'     => 'Loggable.LoggableKeywordOrder',
             'foreignKey'    => 'Keyword_id'
         )
     );

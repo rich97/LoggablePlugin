@@ -1,6 +1,6 @@
 <?php
-class Region extends LoggableAppModel {
-    var $name = 'Region';
+class LoggableRegion extends LoggableAppModel {
+    var $name = 'LoggableRegion';
 
     var $validate = array(
         'region' => array(
@@ -9,8 +9,8 @@ class Region extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'region_id'
         )
     );

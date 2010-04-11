@@ -1,7 +1,7 @@
 <?php
-class Referrer extends LoggableAppModel {
+class LoggableReferrer extends LoggableAppModel {
 
-    var $name = 'Referrer';
+    var $name = 'LoggableReferrer';
     var $validate = array(
         'referrer' => array(
             'rule' => 'isUnique'
@@ -9,29 +9,29 @@ class Referrer extends LoggableAppModel {
     );
 
     var $belongsTo = array(
-        'SearchEngine' => array(
-            'className' => 'Loggable.SearchEngine',
+        'LoggableSearchEngine' => array(
+            'className' => 'Loggable.LoggableSearchEngine',
             'foreignKey' => 'search_engine_id'
         )
     );
     var $hasMany = array(
-        'Log' => array(
-            'className' => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className' => 'Loggable.LoggableLog',
             'foreignKey' => 'referrer_id'
         ),
-        'KeywordOrder' => array(
-            'className' => 'Loggable.KeywordOrder',
+        'LoggableKeywordOrder' => array(
+            'className' => 'Loggable.LoggableKeywordOrder',
             'foreignKey' => 'referrer_id'
         )
     );
 
     function beforeSave() {
-        if (!isset($this->SearchEngine)) {
+        if (!isset($this->LoggableSearchEngine)) {
             $this->getAssociated();
         }
-        if (isset($this->data['Referrer']['referrer'])) {
-            $tmp = $this->SearchEngine->uniqueId($this->data['Referrer']['referrer']);
-            $this->data['Referrer']['search_engine_id'] = $tmp['search_engine_id'];
+        if (isset($this->data['LoggableReferrer']['referrer'])) {
+            $tmp = $this->LoggableSearchEngine->uniqueId($this->data['LoggableReferrer']['referrer']);
+            $this->data['LoggableReferrer']['search_engine_id'] = $tmp['search_engine_id'];
             $this->keywords = $tmp['keywords'];
         }
         return true;
@@ -39,11 +39,11 @@ class Referrer extends LoggableAppModel {
 
     function afterSave($created) {
         if ($created && $this->keywords !== null) {
-            if (!isset($this->KeywordOrder->Keyword)) {
+            if (!isset($this->LoggableKeywordOrder->LoggableKeyword)) {
                 $this->getAssociated();
-                $this->KeywordOrder->getAssociated();
+                $this->LoggableKeywordOrder->getAssociated();
             }
-            $this->KeywordOrder->sortKeywords($this->keywords, $this->id);
+            $this->LoggableKeywordOrder->sortKeywords($this->keywords, $this->id);
         }
         return true;
     }

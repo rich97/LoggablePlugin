@@ -1,14 +1,14 @@
 <?php
-class KeywordOrder extends LoggableAppModel {
-    var $name = 'KeywordOrder';
+class LoggableKeywordOrder extends LoggableAppModel {
+    var $name = 'LoggableKeywordOrder';
 
     var $belongsTo = array(
-        'Keyword' => array(
-            'className'     => 'Loggable.Keyword',
+        'LoggableKeyword' => array(
+            'className'     => 'Loggable.LoggableKeyword',
             'foreignKey'    => 'keyword_id'
         ),
-        'Referrer' => array(
-            'className'     => 'Loggable.Referrer',
+        'LoggableReferrer' => array(
+            'className'     => 'Loggable.LoggableReferrer',
             'foreignKey'    => 'referrer_id'
         )
     );
@@ -20,9 +20,9 @@ class KeywordOrder extends LoggableAppModel {
         foreach ($keywords as $key => $keyword) {
             $this->create();
             $this->save(array(
-                'KeywordOrder' => array(
+                'LoggableKeywordOrder' => array(
                     'referrer_id' => $id,
-                    'keyword_id' => $this->Keyword->uniqueId(array('keyword' => $keyword)),
+                    'keyword_id' => $this->LoggableKeyword->uniqueId(array('keyword' => $keyword)),
                     'order' => ($key + 1)
                 )
             ));

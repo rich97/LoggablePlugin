@@ -1,6 +1,6 @@
 <?php
-class Host extends LoggableAppModel {
-    var $name = 'Host';
+class LoggableHost extends LoggableAppModel {
+    var $name = 'LoggableHost';
 
     var $validate = array(
         'host' => array(
@@ -9,8 +9,8 @@ class Host extends LoggableAppModel {
     );
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'host_id'
         )
     );

@@ -1,10 +1,10 @@
 <?php
-class Screen extends LoggableAppModel {
-    var $name = 'Screen';
+class LoggableScreen extends LoggableAppModel {
+    var $name = 'LoggableScreen';
 
     var $hasMany = array(
-        'Log' => array(
-            'className'     => 'Loggable.Log',
+        'LoggableLog' => array(
+            'className'     => 'Loggable.LoggableLog',
             'foreignKey'    => 'screen_id'
         )
     );
