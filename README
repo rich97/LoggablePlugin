@@ -1,3 +1,14 @@
-This is very much in development. It has recently had several major changes and thus is probably un-workable.
+This is an update to a plugin I wrote a while ago.
 
-I do not suggest using it at present.
+It currently logs all requests made to your site, and I need to work on a display interface.
+
+Useage:
+
+In app_controller.php:
+
+var $components = array('Loggable.Loggable');
+var $helpers = array('Loggable.Loggable');
+
+In views/layouts/default.ctp:
+
+echo $this->Loggable->loggable();
