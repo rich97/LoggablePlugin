@@ -1,14 +1,14 @@
 <?php
-class LogHelper extends AppHelper {
+class LoggableHelper extends AppHelper {
 
-    var $helpers = array('Javascript', 'Session', 'Html');
+    var $helpers = array('Javascript', 'Session');
 
-    function logging() {
+    function loggable() {
         if ($this->Session->check('Loggable.code')) {
             $out = '<div id="loggable" style="display: none;">';
-            $out .= $this->Javascript->codeBlock('var LogCode = "' . $this->Session->read('Log.code') .
+            $out .= $this->Javascript->codeBlock('var LogCode = "' . $this->Session->read('Loggable.code') .
                 '";var LogUrl = "' .
-                $this->Html->url(array('plugin' => 'loggable', 'controller' => 'logs', 'action' => 'js')) . '";');
+                Router::url(array('plugin' => 'loggable', 'controller' => 'loggable', 'action' => 'log'), true) . '";');
             $out .= $this->Javascript->link('/loggable/js/logging.js');
             $out .= '</div>';
             return $this->output($out);

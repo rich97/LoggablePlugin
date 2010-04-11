@@ -1,5 +1,5 @@
 <?php
-class LogsComponent extends Object {
+class LoggableComponent extends Object {
 
     var $components = array('Session', 'Cookie', 'RequestHandler');
     var $user = 0;
@@ -9,7 +9,7 @@ class LogsComponent extends Object {
         $this->Session->delete('Loggable.code');
         if ($this->enabled && $this->isStandard()) {
             // Get the Log model
-            $this->Log = ClassRegistry::init('Loggable.Log');
+            $this->LoggableLog = ClassRegistry::init('Loggable.LoggableLog');
 
             // Is this a returning user?
             $this->returning = (int)($this->Cookie->read('Loggable.visitor') !== null &&
@@ -19,13 +19,13 @@ class LogsComponent extends Object {
             if ($this->Cookie->read('Loggable.visitor') === null) {
                 // Get and save a unique hash - microtime for quick changing, ip to try and reduce
                 // clashes from simultaneous requests.
-                $this->Log->Cookie->recursive = -1;
+                $this->LoggableLog->LoggableCookie->recursive = -1;
                 do {
                     $visit = Security::hash(microtime() . env('REMOTE_ADDR'), 'sha256', true);
-                } while ($this->Log->Cookie->find('count',
+                } while ($this->LoggableLog->LoggableCookie->find('count',
                     array(
                         'conditions' => array(
-                            'Cookie.cookie' => $visit
+                            'LoggableCookie.cookie' => $visit
                         )
                     )
                 ) !== 0) ;
@@ -41,13 +41,13 @@ class LogsComponent extends Object {
                 $this->Session->write('Loggable.page', ($this->Session->read('Loggable.page') + 1));
             }
 
-            $this->Log->recursive = -1;
+            $this->LoggableLog->recursive = -1;
             do {
                 $visit = Security::hash('1' . microtime() . env('REMOTE_ADDR'), 'sha256', true);
             } while ($this->Log->find('count',
                 array(
                     'conditions' => array(
-                        'Log.code' => $visit
+                        'LoggableLog.code' => $visit
                     )
                 )
             ) !== 0) ;
@@ -65,24 +65,26 @@ class LogsComponent extends Object {
             $this->geo = json_decode(substr(file_get_contents('http://www.geoplugin.net/json.gp?ip=' . env('REMOTE_ADDR')), 10, -1), true);
 
             // Save variables
-            $this->Log->save(array('Log' => array(
-                'ip' => env('REMOTE_ADDR'),
-                'session_id' => $this->getSessionId(),
-                'user_id' => $this->user,
-                'page_no' => $this->Session->read('Log.page'),
-                'returning' => $this->returning,
-                'code' => $visit,
-                'cookie_id' => $this->Log->Cookie->uniqueId(array('cookie' => $this->Cookie->read('Loggable.visitor'))),
-                'host_id' => $this->Log->Host->uniqueId(array('host' => env('HTTP_HOST') . Router::url('/'))),
-                'referrer_id' => $this->Log->Referrer->uniqueId(array('referrer' => $this->referrer)),
-                'url_id' => $this->Log->Url->uniqueId(array('url' => substr(env('REQUEST_URI'), strlen(Router::url('/'))))),
-                'user_agent_id' => $this->Log->UserAgent->uniqueId(array('user_agent' => $this->user_agent)),
-                'continent_id' => $this->Log->Continent->uniqueId(array('continent' => $this->geo['geoplugin_continentCode'])),
-                'country_id' => $this->Log->Country->uniqueId(array('code' => $this->geo['geoplugin_countryCode'], 'country' => $this->geo['geoplugin_countryName'])),
-                'region_id' => $this->Log->Region->uniqueId(array('code' => $this->geo['geoplugin_regionCode'], 'region' => $this->geo['geoplugin_regionName'])),
-                'city_id' => $this->Log->City->uniqueId(array('city' => $this->geo['geoplugin_city'])),
-                'latitude' => $this->geo['geoplugin_latitude'],
-                'longitude' => $this->geo['geoplugin_longitude'],
+            $this->LoggableLog->save(array(
+                'LoggableLog' => array(
+                    'ip' => env('REMOTE_ADDR'),
+                    'session_id' => $this->getSessionId(),
+                    'user_id' => $this->user,
+                    'page_no' => $this->Session->read('Log.page'),
+                    'returning' => $this->returning,
+                    'code' => $visit,
+                    'cookie_id' => $this->LoggableLog->LoggableCookie->uniqueId(array('cookie' => $this->Cookie->read('Loggable.visitor'))),
+                    'host_id' => $this->LoggableLog->LoggableHost->uniqueId(array('host' => env('HTTP_HOST') . Router::url('/'))),
+                    'referrer_id' => $this->LoggableLog->LoggableReferrer->uniqueId(array('referrer' => $this->referrer)),
+                    'url_id' => $this->LoggableLog->LoggableUrl->uniqueId(array('url' => substr(env('REQUEST_URI'), strlen(Router::url('/'))))),
+                    'user_agent_id' => $this->LoggableLog->LoggableUserAgent->uniqueId(array('user_agent' => $this->user_agent)),
+                    'continent_id' => $this->LoggableLog->LoggableContinent->uniqueId(array('continent' => $this->geo['geoplugin_continentCode'])),
+                    'country_id' => $this->LoggableLog->LoggableCountry->uniqueId(array('code' => $this->geo['geoplugin_countryCode'], 'country' => $this->geo['geoplugin_countryName'])),
+                    'region_id' => $this->LoggableLog->LoggableRegion->uniqueId(array('code' => $this->geo['geoplugin_regionCode'], 'region' => $this->geo['geoplugin_regionName'])),
+                    'city_id' => $this->LoggableLog->LoggableCity->uniqueId(array('city' => $this->geo['geoplugin_city'])),
+                    'latitude' => $this->geo['geoplugin_latitude'],
+                    'longitude' => $this->geo['geoplugin_longitude']
+                )
             )));
         }
     }
@@ -106,36 +108,36 @@ class LogsComponent extends Object {
         if ($this->Session->check('Loggable.visit')) {
             return $this->Session->read('Loggable.visit');
         }
-        $find = $this->Log->find('first', array(
+        $find = $this->LoggableLog->find('first', array(
             'fields' => array(
-                'Log.session_id',
-                'Log.page_no'
+                'LoggableLog.session_id',
+                'LoggableLog.page_no'
             ),
             'conditions' => array(
-                'Log.ip' => env('REMOTE_ADDR'),
-                'Log.user_agent_id' => $this->Log->UserAgent->uniqueId(array('user_agent' => $this->user_agent)),
-                'Log.created >' => date('Y-m-d H:i:s', time() - 300)
+                'LoggableLog.ip' => env('REMOTE_ADDR'),
+                'LoggableLog.user_agent_id' => $this->LoggableLog->LoggableUserAgent->uniqueId(array('user_agent' => $this->user_agent)),
+                'LoggableLog.created >' => date('Y-m-d H:i:s', time() - 300)
             ),
             'order' => array(
-                'Log.created' => 'DESC'
+                'LoggableLog.created' => 'DESC'
             )
         ));
         if ($find !== false) {
-            $this->Session->write('Loggable.visit', (int)$find['Log']['session_id']);
-            $this->Session->write('Loggable.page', ((int)$find['Log']['page_no'] + 1));
-            return (int)$find['Log']['session_id'];
+            $this->Session->write('Loggable.visit', (int)$find['LoggableLog']['session_id']);
+            $this->Session->write('Loggable.page', ((int)$find['LoggableLog']['page_no'] + 1));
+            return (int)$find['LoggableLog']['session_id'];
         }
-        $find = $this->Log->find('first', array(
+        $find = $this->LoggableLog->find('first', array(
             'fields' => array(
-                'Log.session_id'
+                'LoggableLog.session_id'
             ),
             'order' => array(
-                'Log.session_id' => 'DESC'
+                'LoggableLog.session_id' => 'DESC'
             )
         ));
         if ($find !== false) {
             $this->Session->write('Loggable.visit', ((int)$find['Log']['session_id'] + 1));
-            return ((int)$find['Log']['session_id'] + 1);
+            return ((int)$find['LoggableLog']['session_id'] + 1);
         }
         $this->Session->write('Loggable.visit', 1);
         return 1;
