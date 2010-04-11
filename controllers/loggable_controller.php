@@ -5,7 +5,7 @@ class LoggableController extends LoggableAppController {
     var $components = array('Cookie');
     var $uses = array('Loggable.LoggableLog');
 
-    function log() {
+    function logs() {
         foreach ($this->passedArgs as $key=>$val) {
             if (substr($key, 0, 2) === '64') {
                 $this->passedArgs[substr($key, 2)] = base64_decode($val);
@@ -41,9 +41,9 @@ class LoggableController extends LoggableAppController {
                     'id' => $log['LoggableLog']['id'],
                     'javascript' => 1,
                     'code' => '',
-                    'language_id' => $this->Log->Language->uniqueId(array('language' => $pass['lang'])),
-                    'screen_id' => $this->Log->Screen->uniqueId(array('width' => $pass['width'], 'height' => $pass['height'])),
-                    'available_id' => $this->Log->Available->uniqueId(array('width' => $pass['avwidth'], 'height' => $pass['avheight'])),
+                    'language_id' => $this->LoggableLog->LoggableLanguage->uniqueId(array('language' => $pass['lang'])),
+                    'screen_id' => $this->LoggableLog->LoggableScreen->uniqueId(array('width' => $pass['width'], 'height' => $pass['height'])),
+                    'available_id' => $this->LoggableLog->LoggableAvailable->uniqueId(array('width' => $pass['avwidth'], 'height' => $pass['avheight'])),
                     'colour' => $pass['colour']
                 )
             ));

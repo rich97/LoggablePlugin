@@ -37,7 +37,7 @@ class LoggableLog extends LoggableAppModel {
             'foreignKey' => 'region_id'
         ),
         'LoggableCity' => array(
-            'className' => 'Loggable.Loggablecity',
+            'className' => 'Loggable.LoggableCity',
             'foreignKey' => 'city_id'
         ),
         'LoggableLanguage' => array(
@@ -56,7 +56,7 @@ class LoggableLog extends LoggableAppModel {
 
     function beforeSave() {
         if(isset($this->data['LoggableLog']['ip'])) {
-            $ip = explode('.', $this->data['Log']['ip']);
+            $ip = explode('.', $this->data['LoggableLog']['ip']);
             $this->data['LoggableLog']['ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
         }
         return true;
@@ -82,7 +82,7 @@ class LoggableLog extends LoggableAppModel {
             $ip = explode('.', $data['conditions']['ip']);
             $data['conditions']['ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
         } elseif (isset($data['conditions']['LoggableLog.ip'])) {
-            $ip = explode('.', $data['conditions']['Log.ip']);
+            $ip = explode('.', $data['conditions']['LoggableLog.ip']);
             $data['conditions']['LoggableLog.ip'] = (pow(256,3) * $ip[0]) + (pow(256,2) * $ip[1]) + (256 * $ip[2]) + $ip[3];
         }
         return $data;

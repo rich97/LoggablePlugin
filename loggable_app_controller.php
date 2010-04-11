@@ -1,16 +1,16 @@
 <?php
-class LoggabbleAppController extends AppController {
+class LoggableAppController extends AppController {
 
     var $helpers = array('Ajax');
-    var $components = array('RequestHandler');
+    var $components = array('RequestHandler', 'Session', 'Security');
 
     function beforeFilter() {
-        if (isset($this->Logs)) {
-            $this->Logs->enabled = false;
+        if (isset($this->Loggable)) {
+            $this->Loggable->enabled = false;
         }
         parent::beforeFilter();
         $this->Security->enabled = false;
-        if ($this->params['controller'] !== 'logs' || $this->action !== 'js') {
+        if ($this->params['controller'] !== 'logable' || $this->action !== 'logs') {
             if (!$this->Session->check('Loggable.startDate')) {
                 $this->Session->write('Loggable.startDate', time() - (DAY * 30));
             }

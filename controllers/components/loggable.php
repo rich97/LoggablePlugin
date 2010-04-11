@@ -44,7 +44,7 @@ class LoggableComponent extends Object {
             $this->LoggableLog->recursive = -1;
             do {
                 $visit = Security::hash('1' . microtime() . env('REMOTE_ADDR'), 'sha256', true);
-            } while ($this->Log->find('count',
+            } while ($this->LoggableLog->find('count',
                 array(
                     'conditions' => array(
                         'LoggableLog.code' => $visit
@@ -70,7 +70,7 @@ class LoggableComponent extends Object {
                     'ip' => env('REMOTE_ADDR'),
                     'session_id' => $this->getSessionId(),
                     'user_id' => $this->user,
-                    'page_no' => $this->Session->read('Log.page'),
+                    'page_no' => $this->Session->read('Loggable.page'),
                     'returning' => $this->returning,
                     'code' => $visit,
                     'cookie_id' => $this->LoggableLog->LoggableCookie->uniqueId(array('cookie' => $this->Cookie->read('Loggable.visitor'))),
@@ -85,7 +85,7 @@ class LoggableComponent extends Object {
                     'latitude' => $this->geo['geoplugin_latitude'],
                     'longitude' => $this->geo['geoplugin_longitude']
                 )
-            )));
+            ));
         }
     }
 
